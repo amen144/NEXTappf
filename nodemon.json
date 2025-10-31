@@ -1,0 +1,5 @@
+{
+    "watch":["server.ts", "noteCtrl.ts", "models/", "controllers/", "utils/"],
+    "ext":"ts",
+    "exec":"ts-node server.ts"
+}
