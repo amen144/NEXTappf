@@ -18,8 +18,8 @@ import { login, signup } from "./controllers/userCtrl";
 dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
-const FRONTEND_URL = process.env.FRONTEND_URL || "http:/myapp11.ddns.net";
+const JWT_SECRET = process.env.JWT_SECRET;
+const FRONTEND_URL = process.env.FRONTEND_URL";
 
 app.use(cors());
 app.use(express.json());
