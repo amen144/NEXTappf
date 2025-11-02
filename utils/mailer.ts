@@ -1,15 +1,15 @@
 import nodemailer from "nodemailer";
 
 export const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,            // TLS port (not SSL)
-  secure: false,        // must be false for port 587
+  host: "smtp.office365.com",
+  port: 587,
+  secure: false, // STARTTLS
   auth: {
-    user: process.env.EMAIL_USER, // your Gmail
-    pass: process.env.EMAIL_PASS, // Gmail App Password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
   tls: {
-    rejectUnauthorized: false,    // prevents some connection rejections
+    ciphers: "SSLv3",
   },
-  connectionTimeout: 20000,       // 20 seconds
+  connectionTimeout: 15000,
 });
