@@ -6,8 +6,5 @@ export const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  tls: {
-    ciphers: "SSLv3",
-  },
   connectionTimeout: 15000,
 });
