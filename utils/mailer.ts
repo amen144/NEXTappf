@@ -1,10 +1,11 @@
 import nodemailer from "nodemailer";
 
 export const transporter = nodemailer.createTransport({
- sservice: "gmail",// STARTTLS
+  service: "gmail", // or use SMTP for custom domains
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.EMAIL_USER, // your Gmail address
+    pass: process.env.EMAIL_PASS, // your Gmail App Password
   },
-  connectionTimeout: 15000,
+   connectionTimeout: 15000,
 });
+
