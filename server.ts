@@ -19,7 +19,7 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET;
-const FRONTEND_URL = process.env.FRONTEND_URL";
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const allowedOrigins = [
   "https://react-kappa-pink.vercel.app"      // for local dev
