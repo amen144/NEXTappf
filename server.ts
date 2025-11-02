@@ -36,6 +36,9 @@ app.use(
 app.use(express.json());
 
 
+app.get("/", (req, res) => {
+  res.send("✅ API is running successfully!");
+});
 
 
 // POST /signup
