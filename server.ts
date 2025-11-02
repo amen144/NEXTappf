@@ -5,14 +5,14 @@ import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 const allowedOrigins = [
   "https://react-kappa-pink.vercel.app", // your frontend
-  "http://localhost:3000",               // for local dev
+  "http://localhost:3000"               // for local dev
 ];
 
 app.use(
   cors({
     origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    credentials: true
   })
 );
 
