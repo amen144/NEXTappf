@@ -3,6 +3,18 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
+const allowedOrigins = [
+  "https://react-kappa-pink.vercel.app", // your frontend
+  "http://localhost:3000",               // for local dev
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 import {
   addNote as addnote,
