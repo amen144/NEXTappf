@@ -30,7 +30,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
     });
 
     // Send email
-    const resetLink = `${API_URL}/reset-password/${resetToken}`;
+    const resetLink = `${FRONTEND_URL}/reset-password/${resetToken}`;
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,

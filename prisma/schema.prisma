@@ -18,6 +18,7 @@ model users {
   email                String   @unique
   password             String
   notes                post[]
+  friendIds           Int[]    @default([])  // Array of friend user IDs
   isVerified           Boolean  @default(false)
   verificationCode     String?
   verificationExpires  DateTime?
@@ -26,10 +27,13 @@ model users {
   resetToken           String?
   resetTokenExpiry     DateTime?
 }
+
+
 model post {
-  id Int @id @default(autoincrement())
-  title String
-  content String
-  userID Int
-  users users @relation(fields:[userID],references:[id],onDelete:Cascade)
+  id           Int     @id @default(autoincrement())
+  title        String
+  content      String
+  userID       Int
+  users        users   @relation(fields: [userID], references: [id], onDelete: Cascade)
+  sharedWith   Int[]   @default([])  // Array of user IDs this note is shared with
 }

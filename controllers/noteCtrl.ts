@@ -9,16 +9,26 @@ dotenv.config();
 
 // Get all notes (optionally filtered by userID)
 export const getNotes = async (req: Request, res: Response):Promise<any>=> {
+
   try {
     const { userID } = req.params;
+
     if (!userID) {
       return res.status(400).json({ message: "Missing userID in request params" });
     }
+
     const notes = await prisma.post.findMany({
-      where: { userID: Number(userID) },
-      include: { users: true }, // Include related user info
+      where: {
+        OR: [
+          { userID: Number(userID) },                // User's own notes
+          { sharedWith: { has: Number(userID) } },  // Notes shared with the user
+        ],
+      },
+      include: { users: true },
     });
+
     return res.status(200).json(notes);
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });

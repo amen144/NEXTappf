@@ -1,8 +1,17 @@
 // ...existing code...
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
+import {
+  authMiddleware,
+  searchUsers,
+  sendFriendRequest,
+  acceptFriendRequest,
+  getFriends,
+  removeFriend,
+  shareNote,
+} from "./controllers/share";
 
 import {
   addNote as addnote,
@@ -40,6 +49,12 @@ app.post("/verify-login",vrflogin);
 // Notes and auth routes (controllers)
 app.post("/auth/forgot-password", forgotPassword);
 app.post("/auth/reset-password", resetPassword);
+app.get("/search", authMiddleware, searchUsers);
+app.post("/friends/request", authMiddleware, sendFriendRequest);
+app.post("/friends/accept", authMiddleware, acceptFriendRequest);
+app.get("/friends", authMiddleware, getFriends);
+app.delete("/friends/:friendId", authMiddleware, removeFriend);
+app.post("/share", authMiddleware, shareNote);
 
 app.post("/notes", addnote);
 app.get("/notes/:userID", getnote);
