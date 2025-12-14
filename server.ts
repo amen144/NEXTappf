@@ -27,13 +27,27 @@ import { login, signup } from "./controllers/userCtrl";
 dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
-const FRONTEND_URL = process.env.FRONTEND_URL || "http:/myapp11.ddns.net";
+const JWT_SECRET = process.env.JWT_SECRET;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
-app.use(cors());
+const allowedOrigins = [
+  "https://react-kappa-pink.vercel.app"      // for local dev
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
+
 app.use(express.json());
 
 
+app.get("/", (req, res) => {
+  res.send("✅ API is running successfully!");
+});
 
 
 // POST /signup
