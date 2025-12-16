@@ -31,7 +31,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const allowedOrigins = [
-  "https://react-kappa-pink.vercel.app"      // for local dev
+  "https://mynotesapp11.vercel.app" ,   
+  "https://react-kappa-pink.vercel.app",
+  "http://myapp11.ddns.net"
+  // for local dev
 ];
 
 app.use(
