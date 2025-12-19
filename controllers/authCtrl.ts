@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
-import { transporter } from "../utils/mailer"; // your nodemailer config
+import { sendPasswordResetEmail } from "../utils/emailService";
 import bcrypt from 'bcryptjs';
 import { login } from "./userCtrl";
 import jwt from "jsonwebtoken";
@@ -31,14 +31,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     // Send email
     const resetLink = `${FRONTEND_URL}/reset-password/${resetToken}`;
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Password Reset",
-      html: `<h1>Password Reset Request from ${user.name}</h1> 
-             <p>Click this link to reset your password:</p>  
-             <a href="${resetLink}">${resetLink}</a>`,
-    });
+    await sendPasswordResetEmail(email, user.name, resetLink);
 
     res.json({ message: "Recovery email sent" });
   } catch (err) {

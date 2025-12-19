@@ -158,12 +158,12 @@ export const removeFriend = async (req: any, res: any) => {
 
     await prisma.users.update({
       where: { id: currentUserId },
-      data: { friendIds: currentFriendIds.filter((id) => id !== friendId) },
+      data: { friendIds: currentFriendIds.filter((id: number) => id !== friendId) },
     });
 
     await prisma.users.update({
       where: { id: friendId },
-      data: { friendIds: friendFriendIds.filter((id) => id !== currentUserId) },
+      data: { friendIds: friendFriendIds.filter((id: number) => id !== currentUserId) },
     });
 
     res.json({ message: "Friend removed" });

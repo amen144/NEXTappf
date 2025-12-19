@@ -5,23 +5,12 @@ import bcrypt from 'bcryptjs';
 import  {Request,Response} from 'express';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
-import { transporter } from "../utils/mailer";
+import { sendVerificationEmail, sendLoginCodeEmail } from "../utils/emailService";
+
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
 const FRONTEND_URL = process.env.FRONTEND_URL || "http:/myapp11.ddns.net";
-async function sendEmail(to: string, subject: string, text: string) {
-  if (transporter) {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER || "amenjaballi08@gmail.com",
-      to,
-      subject,
-      html: text, 
-    });
-  } else {
-    console.log(`[EMAIL to ${to}] ${subject}\n${text}`);
-  }
-}
 export const signup =  async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password)
@@ -67,16 +56,7 @@ export const signup =  async (req: Request, res: Response) => {
       { expiresIn: "15m" }
     );
 
-    await sendEmail(email, "Your verification code", `
-      <h1>Dear ${name},</h1>
-      <p>Thank you for signing up. Please use the following code to verify your account:</p>
-      <h2>${code}</h2>
-      <p>This code will expire in 15 minutes.</p>
-      <p>If you did not sign up, please ignore this email.</p>
-      <br/>
-      <p>Best regards,</p>
-      <p>MyNotes Team</p>
-    `);
+    await sendVerificationEmail(email, name, code);
 
     return res
       .status(200)
@@ -103,17 +83,7 @@ export const login = async (req: Request, res: Response) => {
       data: { loginCode, loginCodeExpires: loginExpires },
     });
 
-    await sendEmail(user.email, "Your login code",`
-      <h1>Dear ${user.name},</h1>
-      <h2>You have requested to log in to your account. Please use the following code to complete your login</h2>
-      <p>Your login code is:</p>
-      <h2>${loginCode}</h2>
-      <h3 style="color:red;">This code will expire in 10 minutes.</h3>
-      <p>If you did not request this code, please ignore this email and change your password</p>
-      <br/>
-      <p>Best regards,</p>
-      <p>MyNotes Team</p>
-    `,);
+    await sendLoginCodeEmail(user.email, user.name, loginCode);
 
     const tempToken = jwt.sign({ userId: user.id, purpose: "login" }, JWT_SECRET, { expiresIn: "10m" });
     return res.json({ requires2FA: true, tempToken, message: "Login code sent to your email" });

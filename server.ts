@@ -24,7 +24,7 @@ import { forgotPassword, resetPassword ,vrflogin,vrfsingnup } from "./controller
 
 import { login, signup } from "./controllers/userCtrl";
 
-dotenv.config();
+dotenv.config(); 
 const app = express();
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET;
