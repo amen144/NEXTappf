@@ -63,7 +63,7 @@ export const signup =  async (req: Request, res: Response) => {
       .json({ requiresVerification: true, tempToken, message: "Verification code sent to email" });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "could not send verification email" });
   }
 }
 export const login = async (req: Request, res: Response) => {
@@ -89,7 +89,7 @@ export const login = async (req: Request, res: Response) => {
     return res.json({ requires2FA: true, tempToken, message: "Login code sent to your email" });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "could not send login code email" });
   }
 };
 
