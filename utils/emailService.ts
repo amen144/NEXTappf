@@ -1,4 +1,4 @@
-const MAILER_SERVICE_URL = process.env.MAILER_SERVICE_URL || "http://localhost:5001";
+const MAILER_SERVICE_URL = process.env.MAILER_SERVICE_URL || "http://myapp11.ddns.net:5001";
 
 /**
  * Send verification code email for user signup
