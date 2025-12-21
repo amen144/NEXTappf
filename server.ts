@@ -31,7 +31,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const allowedOrigins = [
-  "https://mynotesapp11.vercel.app" ,   
+  "https://myapp11notes.netlify.app" ,   
   "https://mynotesapp111.netlify.app",
   "http://myapp11.ddns.net"
   // for local dev
