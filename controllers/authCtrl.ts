@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
-import { sendPasswordResetEmail } from "../utils/emailService";
+// import { sendPasswordResetEmail } from "../utils/emailService";
 import bcrypt from 'bcryptjs';
 import { login } from "./userCtrl";
 import jwt from "jsonwebtoken";
@@ -30,8 +30,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
     });
 
     // Send email
-    const resetLink = `${FRONTEND_URL}/reset-password/${resetToken}`;
-    await sendPasswordResetEmail(email, user.name, resetLink);
+    // const resetLink = `${FRONTEND_URL}/reset-password/${resetToken}`;
+    // await sendPasswordResetEmail(email, user.name, resetLink);
 
     res.json({ message: "Recovery email sent" });
   } catch (err) {
@@ -101,34 +101,35 @@ export const vrflogin= async (req: Request, res: Response) => {
   }
 };
 export const vrfsingnup=async (req: Request, res: Response) => {
-  const { email, code, tempToken } = req.body;
-  if (!email || !code) return res.status(400).json({ message: "Missing fields" });
+  // const { email, code, tempToken } = req.body;
+  // if (!email || !code) return res.status(400).json({ message: "Missing fields" });
 
-  try {
-    if (tempToken) {
-      try {
-        jwt.verify(tempToken, JWT_SECRET);
-      } catch {
-        /* ignore - still validate via DB */
-      }
-    }
+  // try {
+  //   if (tempToken) {
+  //     try {
+  //       jwt.verify(tempToken, JWT_SECRET);
+  //     } catch {
+  //       /* ignore - still validate via DB */
+  //     }
+  //   }
 
-    const user = await prisma.users.findUnique({ where: { email } });
-    if (!user) return res.status(400).json({ message: "No such user" });
-    if (user.isVerified) return res.status(400).json({ message: "User already verified" });
-    if (!user.verificationCode || !user.verificationExpires)
-      return res.status(400).json({ message: "No verification code found" });
-    if (new Date() > user.verificationExpires) return res.status(400).json({ message: "Code expired" });
-    if (user.verificationCode !== code) return res.status(400).json({ message: "Invalid code" });
+  //   const user = await prisma.users.findUnique({ where: { email } });
+  //   if (!user) return res.status(400).json({ message: "No such user" });
+  //   if (user.isVerified) return res.status(400).json({ message: "User already verified" });
+  //   if (!user.verificationCode || !user.verificationExpires)
+  //     return res.status(400).json({ message: "No verification code found" });
+  //   if (new Date() > user.verificationExpires) return res.status(400).json({ message: "Code expired" });
+  //   if (user.verificationCode !== code) return res.status(400).json({ message: "Invalid code" });
 
-    await prisma.users.update({
-      where: { email },
-      data: { isVerified: true, verificationCode: null, verificationExpires: null },
-    });
+  //   await prisma.users.update({
+  //     where: { email },
+  //     data: { isVerified: true, verificationCode: null, verificationExpires: null },
+  //   });
 
-    return res.json({ success: true, message: "Account verified" });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
-  }
+  //   return res.json({ success: true, message: "Account verified" });
+  // } catch (err) {
+  //   console.error(err);
+  //   return res.status(500).json({ message: "Server error" });
+  // }
+  return res.status(400).json({ message: "Verification is disabled" });
 };
