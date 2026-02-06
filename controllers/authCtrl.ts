@@ -76,29 +76,30 @@ console.log(hashedPassword);
   }
 };
 export const vrflogin= async (req: Request, res: Response) => {
-  const { code, tempToken } = req.body;
-  if (!code || !tempToken) return res.status(400).json({ message: "Missing fields" });
-  try {
-    const payload: any = jwt.verify(tempToken, JWT_SECRET);
-    if (!payload || payload.purpose !== "login")
-      return res.status(400).json({ message: "Invalid token" });
+  // const { code, tempToken } = req.body;
+  // if (!code || !tempToken) return res.status(400).json({ message: "Missing fields" });
+  // try {
+  //   const payload: any = jwt.verify(tempToken, JWT_SECRET);
+  //   if (!payload || payload.purpose !== "login")
+  //     return res.status(400).json({ message: "Invalid token" });
 
-    const user = await prisma.users.findUnique({ where: { id: payload.userId } });
-    if (!user) return res.status(400).json({ message: "User not found" });
-    if (!user.loginCode || !user.loginCodeExpires)
-      return res.status(400).json({ message: "No login code found" });
-    if (new Date() > user.loginCodeExpires) return res.status(400).json({ message: "Code expired" });
-    if (user.loginCode !== code) return res.status(400).json({ message: "Invalid code" });
+  //   const user = await prisma.users.findUnique({ where: { id: payload.userId } });
+  //   if (!user) return res.status(400).json({ message: "User not found" });
+  //   if (!user.loginCode || !user.loginCodeExpires)
+  //     return res.status(400).json({ message: "No login code found" });
+  //   if (new Date() > user.loginCodeExpires) return res.status(400).json({ message: "Code expired" });
+  //   if (user.loginCode !== code) return res.status(400).json({ message: "Invalid code" });
 
-    const token = jwt.sign({ userId: user.id, name: user.name }, JWT_SECRET, { expiresIn: "7d" });
-    await prisma.users.update({ where: { id: user.id }, data: { loginCode: null, loginCodeExpires: null } });
+  //   const token = jwt.sign({ userId: user.id, name: user.name }, JWT_SECRET, { expiresIn: "7d" });
+  //   await prisma.users.update({ where: { id: user.id }, data: { loginCode: null, loginCodeExpires: null } });
 
-    return res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
-  } catch (err: any) {
-    console.error(err);
-    if (err.name === "TokenExpiredError") return res.status(400).json({ message: "Temp token expired" });
-    return res.status(500).json({ message: err.message || "Server error" });
-  }
+  //   return res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+  // } catch (err: any) {
+  //   console.error(err);
+  //   if (err.name === "TokenExpiredError") return res.status(400).json({ message: "Temp token expired" });
+  //   return res.status(500).json({ message: err.message || "Server error" });
+  // }
+  return res.status(400).json({ message: "Code verification is disabled" });
 };
 export const vrfsingnup=async (req: Request, res: Response) => {
   // const { email, code, tempToken } = req.body;

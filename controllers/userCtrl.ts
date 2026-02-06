@@ -77,20 +77,23 @@ export const login = async (req: Request, res: Response) => {
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) return res.status(400).json({ message: "Invalid credentials" });
 
-    const loginCode = crypto.randomInt(100000, 999999).toString();
-    const loginExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-    await prisma.users.update({
-      where: { id: user.id },
-      data: { loginCode, loginCodeExpires: loginExpires },
-    });
+    // const loginCode = crypto.randomInt(100000, 999999).toString();
+    // const loginExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    // await prisma.users.update({
+    //   where: { id: user.id },
+    //   data: { loginCode, loginCodeExpires: loginExpires },
+    // });
 
     // await sendLoginCodeEmail(user.email, user.name, loginCode);
 
-    const tempToken = jwt.sign({ userId: user.id, purpose: "login" }, JWT_SECRET, { expiresIn: "10m" });
-    return res.json({ requires2FA: true, tempToken, message: "Login code sent to your email" });
+    // const tempToken = jwt.sign({ userId: user.id, purpose: "login" }, JWT_SECRET, { expiresIn: "10m" });
+    // return res.json({ requires2FA: true, tempToken, message: "Login code sent to your email" });
+    
+    const token = jwt.sign({ userId: user.id, name: user.name }, JWT_SECRET, { expiresIn: "7d" });
+    return res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "could not send login code email" });
+    return res.status(500).json({ message: "Login failed" });
   }
 };
 
