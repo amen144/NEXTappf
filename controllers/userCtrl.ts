@@ -5,23 +5,11 @@ import bcrypt from 'bcryptjs';
 import  {Request,Response} from 'express';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
-import { transporter } from "../utils/mailer";
+import { sendEmail } from "../utils/mailer";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
 const FRONTEND_URL = process.env.FRONTEND_URL || "http:/myapp11.ddns.net";
-async function sendEmail(to: string, subject: string, text: string) {
-  if (transporter) {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER || "amenjaballi08@gmail.com",
-      to,
-      subject,
-      html: text, 
-    });
-  } else {
-    console.log(`[EMAIL to ${to}] ${subject}\n${text}`);
-  }
-}
 export const signup =  async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password)
