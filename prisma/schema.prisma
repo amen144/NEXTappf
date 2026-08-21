@@ -37,3 +37,13 @@ model post {
   users        users   @relation(fields: [userID], references: [id], onDelete: Cascade)
   sharedWith   Int[]   @default([])  // Array of user IDs this note is shared with
 }
+model Audio {
+  id         Int      @id @default(autoincrement())
+  filename   String
+  mimeType   String   @default("audio/mpeg")
+  data       Bytes
+  hash       String   @unique
+  coverImage Bytes?
+  coverMime  String?
+  createdAt  DateTime @default(now())
+}

@@ -6,6 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.ts",
     "build": "tsc",
+    "import-music": "npx tsx utils/music-pl.ts",
     "start": "node dist/server.js"
   },
   "keywords": [],
@@ -20,8 +21,9 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mailer-service": "file:../mailer-service",
+    "music-metadata": "^11.15.0",
     "multer": "^2.0.2",
+    "nodemailer": "^9.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
@@ -33,9 +35,11 @@
     "@types/express": "^5.0.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.9.2",
+    "@types/nodemailer": "^8.0.1",
     "i": "^0.3.7",
     "nodemon": "^3.1.10",
     "npm": "^11.6.0",
-    "prisma": "^6.16.2"
+    "prisma": "^6.16.2",
+    "tsx": "^4.23.12"
   }
 }
