@@ -35,7 +35,7 @@ const allowedOrigins = [
   "https://mynotesapp11.vercel.app" ,   
   "https://react-kappa-pink.vercel.app",
   "http://myapp11.ddns.net",
-  "http://192.168.1.4"
+  "http://192.168.1.77"
   // for local dev
 ];
 
